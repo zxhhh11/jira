@@ -22,12 +22,12 @@ export const AuthenticatedApp = () => {
           </Button>
         </HeaderRight>
       </PageHeader>
-      <Nav>nav</Nav>
+      {/* <Nav>nav</Nav> */}
       <Main>
         <ProjectListScreen></ProjectListScreen>
       </Main>
-      <Aside>aside</Aside>
-      <NewFooter>footer</NewFooter>
+      {/* <Aside>aside</Aside>
+      <NewFooter>footer</NewFooter> */}
     </Container>
   );
 };
@@ -63,16 +63,17 @@ const HeaderLeft = styled.div`
   align-items: center;
 `;
 const HeaderRight = styled.div``;
+
 const Main = styled.main`
   grid-area: main;
 `;
 
-const Nav = styled.nav`
-  grid-area: nav;
-`;
-const Aside = styled.aside`
-  grid-area: aside;
-`;
-const NewFooter = styled.footer`
-  grid-area: footer;
-`;
+// const Nav = styled.nav`
+//   grid-area: nav;
+// `;
+// const Aside = styled.aside`
+//   grid-area: aside;
+// `;
+// const NewFooter = styled.footer`
+//   grid-area: footer;
+// `;
