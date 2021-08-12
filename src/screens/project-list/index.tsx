@@ -5,6 +5,7 @@ import { cleanObject, useDebounce, useMount } from "../../util";
 
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
+import { useHttp } from "util/http";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
@@ -13,17 +14,20 @@ export const ProjectListScreen = () => {
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
   const debouncedParam = useDebounce(param, 200); //用自定义debounce hook 设置debouncedParam的值
+
+  const client = useHttp();
   useEffect(() => {
-    console.log(cleanObject(param));
+    // console.log(cleanObject(param));
+    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
     // fetch 方法 获取数据
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
-    ).then(async (response) => {
-      console.log({ response });
-      if (response.ok) {
-        setList(await response.json());
-      }
-    });
+    // fetch(
+    //   `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
+    // ).then(async (response) => {
+    //   console.log({ response });
+    //   if (response.ok) {
+    //     setList(await response.json());
+    //   }
+    // });
   }, [debouncedParam]);
   // useEffect(()=>{
   //     // fetch 方法 获取数据
@@ -36,12 +40,13 @@ export const ProjectListScreen = () => {
   // },[])
   useMount(() => {
     // fetch 方法 获取数据
-    fetch(`${apiUrl}/users`).then(async (response) => {
-      console.log({ response });
-      if (response.ok) {
-        setUsers(await response.json());
-      }
-    });
+    client("users").then(setUsers);
+    // fetch(`${apiUrl}/users`).then(async (response) => {
+    //   console.log({ response });
+    //   if (response.ok) {
+    //     setUsers(await response.json());
+    //   }
+    // });
   });
   return (
     <div>
