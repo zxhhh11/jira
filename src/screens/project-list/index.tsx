@@ -5,6 +5,7 @@ import { cleanObject, useDebounce, useMount } from "../../util";
 
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
+import styled from "@emotion/styled";
 import { useHttp } from "util/http";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -28,6 +29,7 @@ export const ProjectListScreen = () => {
     //     setList(await response.json());
     //   }
     // });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam]);
   // useEffect(()=>{
   //     // fetch 方法 获取数据
@@ -49,13 +51,17 @@ export const ProjectListScreen = () => {
     // });
   });
   return (
-    <div>
+    <Container>
       <SearchPanel
         users={users}
         param={param}
         setParam={setParam}
       ></SearchPanel>
       <List users={users} list={list}></List>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;

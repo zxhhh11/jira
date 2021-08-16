@@ -4,19 +4,21 @@ import App from "./App";
 import { AppProviders } from "./context/index";
 import React from "react";
 import ReactDOM from "react-dom";
-// import { loadDevTools } from "jira-dev-tool";
 import reportWebVitals from "./reportWebVitals";
 
-// loadDevTools(()=>{ //loadDevTools  用来模拟后端server
+// import { DevTools, loadServer } from "jira-dev-tool";
+
+// loadServer(()=>{ //loadDevTools  用来模拟后端server
 ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
+      {/* <DevTools /> */}
       <App />
     </AppProviders>
   </React.StrictMode>,
   document.getElementById("root")
 );
-// })
+//  })
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

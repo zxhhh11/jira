@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 
 // 如果一个值存在 或者为0都认为是true
 const isFalse = (value: unknown): boolean => (value === 0 ? false : !value); //!!value  是指求value得布尔值
-
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
 // 清理对象中得空值
-export const cleanObject = (obj: object) => {
+export const cleanObject = (obj: { [key: string]: unknown }) => {
+  //obj: object 这种设定 后面 用到result[key]的时候会报错
   const result = { ...obj };
   Object.keys(result).forEach((key) => {
-    //@ts-ignore
     const value = result[key];
-    if (isFalse(value)) {
-      //@ts-ignore
+    // if (isFalse(value)) {
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -21,6 +22,9 @@ export const cleanObject = (obj: object) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // TODO: 依赖项里加上callback 会造成无线循环，这个和useCallback和useMemo 有关
+    //但是实际上callback 不需要加入到依赖项得数组中  所以接下来我们把下面这行代码的eslint 检查禁用掉就好啦
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
@@ -50,6 +54,7 @@ export const useDebounce = <T>(value: T, delay?: number) => {
       // 每次在上一个useEffect 处理完成以后再运行
       clearTimeout(timeout);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, delay]);
 
   return debounceValue;

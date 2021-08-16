@@ -1,33 +1,65 @@
+import { Button, Dropdown, Menu } from "antd";
 import React, { useState } from "react";
 
-import { Button } from "antd";
-import { Footer } from "antd/lib/layout/layout";
+import { DownOutlined } from "@ant-design/icons";
 import { ProjectListScreen } from "./screens/project-list";
+import { Row } from "components/lib";
+// import watermeleon from 'assets/watermeleon.svg';
+import { ReactComponent as Watermelon } from "assets/watermelon.svg";
+import logo from "assets/3651518.gif";
 import styled from "@emotion/styled";
 import { useAuth } from "context/auth-context";
 
 export const AuthenticatedApp = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          1st menu item
+        </a>
+      </Menu.Item>
+      {/* <Menu.Item icon={<DownOutlined />} disabled>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+          2nd menu item (disabled)
+        </a>
+      </Menu.Item> */}
+      <Menu.Item disabled>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.luohanacademy.com"
+        >
+          3rd menu item (disabled)
+        </a>
+      </Menu.Item>
+      <Menu.Item danger>a danger item</Menu.Item>
+    </Menu>
+  );
   return (
     <Container>
-      <PageHeader>
-        <HeaderLeft>
-          <div>logo</div>
-          <div>项目</div>
-          <div>用户</div>
+      <PageHeader between={true}>
+        <HeaderLeft gap={true}>
+          <Watermelon width="8rem" color="rgb(38,132,255)"></Watermelon>
+          {/* <Img src={watermelon} alt="logo" /> */}
+          <h2>项目</h2>
+          <h2>用户</h2>
         </HeaderLeft>
         <HeaderRight>
-          <Button type="primary" onClick={logout}>
-            登出
-          </Button>
+          <Dropdown overlay={menu}>
+            <Button type="link" onClick={logout}>
+              Hi, {user ? user.name : "huihui"}
+            </Button>
+          </Dropdown>
         </HeaderRight>
       </PageHeader>
-      {/* <Nav>nav</Nav> */}
       <Main>
         <ProjectListScreen></ProjectListScreen>
       </Main>
-      {/* <Aside>aside</Aside>
-      <NewFooter>footer</NewFooter> */}
     </Container>
   );
 };
@@ -40,32 +72,31 @@ export const AuthenticatedApp = () => {
  * 从布局出发：先规划网格，然后再把元素往里填充
  * 从内容出发用flex ，从布局出发用Grid
  * **/
+const Img = styled.img`
+  width: 5rem;
+`;
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 6rem 1fr 6rem;
-  grid-template-columns: 20rem 1fr 20rem;
-  grid-template-areas:
+  grid-template-rows: 6rem 1fr;
+  /* grid-template-columns: 20rem 1fr 20rem; */
+  /* grid-template-areas:
     "header header header"
     "nav main aside"
-    "footer footer footer";
+    "footer footer footer"; */
   height: 100vh;
-  grid-gap: 10rem; //用来设置块与块之间的间距
+  /* grid-gap: 10rem; //用来设置块与块之间的间距 */
 `;
-const PageHeader = styled.header`
-  grid-area: header;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+const PageHeader = styled(Row)`
+  /* grid-area: header; */
+  padding: 3.2rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  /* z-index:1; */
 `;
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
 const Main = styled.main`
-  grid-area: main;
+  /* grid-area: main; */
 `;
 
 // const Nav = styled.nav`
