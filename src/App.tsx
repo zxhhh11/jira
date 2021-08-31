@@ -7,10 +7,15 @@ import React from "react";
 import { UnauthenticatedApp } from "./unauthenticated-app";
 
 function App() {
+  const token = localStorage.getItem("__auth_provider_key__");
   return (
     <div className="App">
-      {/* <ProjectListScreen></ProjectListScreen> */}
-      <AuthenticatedApp></AuthenticatedApp>
+      {token ? (
+        <AuthenticatedApp></AuthenticatedApp>
+      ) : (
+        <UnauthenticatedApp></UnauthenticatedApp>
+      )}
+      {/* <AuthenticatedApp></AuthenticatedApp> */}
       {/* <UnauthenticatedApp></UnauthenticatedApp> */}
     </div>
   );

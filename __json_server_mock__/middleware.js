@@ -14,9 +14,7 @@ module.exports = (req, res, next) => {
       });
     }
   }
-  next();
-};
-module.exports = (req, res, next) => {
+
   if (req.method === "POST" && req.path === "/register") {
     console.log(req.body, "body");
     if (req.body.username && req.body.password) {

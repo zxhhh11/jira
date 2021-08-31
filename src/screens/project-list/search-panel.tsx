@@ -9,7 +9,7 @@ export interface User {
   organization: string;
   token?: string;
 }
-interface SearchPanelProps {
+export interface SearchPanelProps {
   users: User[];
   param: {
     name: string;
@@ -18,24 +18,28 @@ interface SearchPanelProps {
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
+  {
+    /*setParam(Object.assign({},param,{name:evt.target.value}))  */
+  }
   return (
     <Form layout={"inline"} style={{ marginBottom: "2rem" }}>
-      {/*setParam(Object.assign({},param,{name:evt.target.value}))  */}
       <Form.Item
-        name="username"
+        name="name"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
         <Input
           placeholder="项目名"
-          // onChange={(value) => setParam({ ...param, name:value })}
+          onChange={(e) => setParam({ ...param, name: e.target.value })}
         />
       </Form.Item>
       <Form.Item name="personId" rules={[{ required: true }]}>
         <Select
           placeholder="负责人"
-          // onChange={(value) => setParam({ ...param, personId: value })}
+          onSelect={(value) =>
+            setParam({ ...param, personId: value as string })
+          }
         >
-          <Select.Option value="">负责人</Select.Option>
+          {/* <Select.Option value=''>负责人</Select.Option> */}
           {users.map((user) => (
             <Select.Option value={user.id} key={user.id}>
               {user.name}

@@ -14,7 +14,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const LoginPage = () => {
   const { login, user } = useAuth();
   // const login=(user:User)=>{
-  //     // fetch(`${apiUrl}/login`,{
   //     fetch(`${apiUrl}/register`,{
   //             method:'POST',
   //             headers:{
@@ -29,11 +28,8 @@ export const LoginPage = () => {
   //         }
   //       });
   // }
-  const handelSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const username = (event.currentTarget.elements[0] as HTMLFormElement).value;
-    const password = (event.currentTarget.elements[1] as HTMLFormElement).value;
-    login({ username, password });
+  const handelSubmit = (value: User) => {
+    login(value);
   };
   return (
     <Form

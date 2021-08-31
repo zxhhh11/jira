@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { Table, TableProps } from "antd";
 
-import { Table } from "antd";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
-import { render } from "@testing-library/react";
 
-interface Project {
+export interface Project {
   id: string;
   name: string;
   personId: string;
   pin: boolean;
   organization: string;
 }
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project> {
+  // list: Project[];
   users: User[];
 }
-export const List = ({ list, users }: ListProps) => {
+export const List = ({ users, ...props }: ListProps) => {
   const columns = [
     {
       title: "名称",
@@ -33,6 +32,7 @@ export const List = ({ list, users }: ListProps) => {
       dataIndex: "personId",
       key: "personId",
       render(value: string, project: Project) {
+        console.log(users, project);
         // render:(personId:string)=><span>{users.find((user) => user.id === personId)?.name || "未知"}</span>
         return (
           <span>
@@ -51,5 +51,5 @@ export const List = ({ list, users }: ListProps) => {
       },
     },
   ];
-  return <Table rowKey="id" dataSource={list} columns={columns} />;
+  return <Table rowKey="id" columns={columns} {...props} />;
 };
