@@ -1,16 +1,46 @@
 import { Button, Dropdown, Menu } from "antd";
+import { Navigate, Navigator, Route, Routes } from "react-router";
 import React, { useState } from "react";
 
 import { DownOutlined } from "@ant-design/icons";
 import { ProjectListScreen } from "./screens/project-list";
+import ProjectScreen from "screens/projects";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Row } from "components/lib";
 // import watermeleon from 'assets/watermeleon.svg';
 import { ReactComponent as Watermelon } from "assets/watermelon.svg";
 import logo from "assets/3651518.gif";
+import { resetRoute } from "util/index";
 import styled from "@emotion/styled";
 import { useAuth } from "context/auth-context";
 
 export const AuthenticatedApp = () => {
+  const { logout, user } = useAuth();
+
+  return (
+    <Container>
+      <PageHeaderAll></PageHeaderAll>
+      <Main>
+        {/* <ProjectListScreen></ProjectListScreen> */}
+        <Router>
+          <Routes>
+            <Route
+              path="/projects"
+              element={<ProjectListScreen></ProjectListScreen>}
+            ></Route>
+            <Route
+              path="/projects/:projectId/*"
+              element={<ProjectScreen></ProjectScreen>}
+            ></Route>
+            <Navigate to="/projects"></Navigate>
+          </Routes>
+        </Router>
+      </Main>
+    </Container>
+  );
+};
+
+const PageHeaderAll = () => {
   const { logout, user } = useAuth();
   const menu = (
     <Menu>
@@ -29,29 +59,27 @@ export const AuthenticatedApp = () => {
     </Menu>
   );
   return (
-    <Container>
-      <PageHeader between={true}>
-        <HeaderLeft gap={true}>
-          <Watermelon width="8rem" color="rgb(38,132,255)"></Watermelon>
-          {/* <Img src={watermelon} alt="logo" /> */}
-          <h2>项目</h2>
-          <h2>用户</h2>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown overlay={menu}>
-            <Button type="link" onClick={logout}>
-              Hi, {user ? user.name : "huihui"}
-            </Button>
-          </Dropdown>
-        </HeaderRight>
-      </PageHeader>
-      <Main>
-        <ProjectListScreen></ProjectListScreen>
-      </Main>
-    </Container>
+    <PageHeader between={true}>
+      <HeaderLeft gap={true}>
+        <Button type="link" onClick={resetRoute}>
+          {" "}
+          <Watermelon width="4rem" color="rgb(38,132,255)"></Watermelon>
+        </Button>
+
+        {/* <Img src={watermelon} alt="logo" /> */}
+        <h2>项目</h2>
+        <h2>用户</h2>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown overlay={menu}>
+          <Button type="link" onClick={logout}>
+            Hi, {user ? user.name : "huihui"}
+          </Button>
+        </Dropdown>
+      </HeaderRight>
+    </PageHeader>
   );
 };
-
 /**Grid 和flex 各自的应用场景
  * 1. 要考虑，是一维布局，还是二维布局
  * 一般来说，一维布局用flex布局，二维布局用grid ( 有横向有竖向的分布时)

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableProps } from "antd";
 
+import { Link } from "react-router-dom";
+import { To } from "history";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
 
@@ -19,8 +21,24 @@ export const List = ({ users, ...props }: ListProps) => {
   const columns = [
     {
       title: "名称",
-      dataIndex: "name",
+      // dataIndex: "name",
       key: "name",
+      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
+      render(
+        value: any,
+        project: {
+          id: To;
+          name:
+            | boolean
+            | React.ReactChild
+            | React.ReactFragment
+            | React.ReactPortal
+            | null
+            | undefined;
+        }
+      ) {
+        return <Link to={String(project.id)}>{project.name}</Link>;
+      },
     },
     {
       title: "部门",

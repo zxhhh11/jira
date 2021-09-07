@@ -18,11 +18,13 @@ export interface SearchPanelProps {
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
-  {
-    /*setParam(Object.assign({},param,{name:evt.target.value}))  */
-  }
+  const [form] = Form.useForm();
+  const clearIpt = () => {
+    form.resetFields();
+    setParam({ name: "", personId: "" });
+  };
   return (
-    <Form layout={"inline"} style={{ marginBottom: "2rem" }}>
+    <Form layout={"inline"} form={form} style={{ marginBottom: "2rem" }}>
       <Form.Item
         name="name"
         rules={[{ required: true, message: "Please input your username!" }]}
@@ -46,6 +48,15 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
             </Select.Option>
           ))}
         </Select>
+      </Form.Item>
+      <Form.Item
+        name="name"
+        rules={[{ required: true, message: "Please input your username!" }]}
+      >
+        <Button type="primary" onClick={clearIpt}>
+          {" "}
+          Clear
+        </Button>
       </Form.Item>
     </Form>
   );

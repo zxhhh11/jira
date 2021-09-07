@@ -3,6 +3,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import React, { FormEvent } from "react";
 
 import { LongButton } from "screens/common-style";
+import { useAsync } from "util/use-async";
 import { useAuth } from "context/auth-context";
 
 interface User {
@@ -11,7 +12,7 @@ interface User {
 }
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const LoginPage = () => {
+export const LoginPage = ({ onError }: { onError: (error: Error) => void }) => {
   const { login, user } = useAuth();
   // const login=(user:User)=>{
   //     fetch(`${apiUrl}/register`,{
@@ -28,9 +29,16 @@ export const LoginPage = () => {
   //         }
   //       });
   // }
-  const handelSubmit = (value: User) => {
-    login(value);
+  const { run, isLoading } = useAsync(undefined, { throwNewError: true });
+
+  const handelSubmit = async (value: User) => {
+    try {
+      await run(login(value));
+    } catch (e) {
+      onError(e);
+    }
   };
+
   return (
     <Form
       name="basic"
@@ -38,6 +46,7 @@ export const LoginPage = () => {
       onFinish={handelSubmit}
     >
       {user ? <div>登录成功 用户名{user?.name}</div> : null}
+
       <Form.Item
         name="username"
         rules={[{ required: true, message: "Please input your username!" }]}
@@ -45,6 +54,7 @@ export const LoginPage = () => {
         <Input
           placeholder="Username"
           prefix={<UserOutlined className="site-form-item-icon" />}
+          autoComplete="off"
         />
       </Form.Item>
       <Form.Item
@@ -54,10 +64,11 @@ export const LoginPage = () => {
         <Input
           type="password"
           placeholder="Password"
+          autoComplete="off"
           prefix={<LockOutlined className="site-form-item-icon" />}
         />
       </Form.Item>
-      <LongButton type="primary" htmlType="submit">
+      <LongButton loading={isLoading} type="primary" htmlType="submit">
         登录
       </LongButton>
     </Form>

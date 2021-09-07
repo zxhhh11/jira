@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
       });
     } else {
       return res.status(400).json({
-        messsage: "用户名或密码错误",
+        message: "用户名或密码错误",
       });
     }
   }
@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
       });
     } else {
       return res.status(400).json({
-        messsage: "用户名或密码错误",
+        message: "用户名或密码错误",
       });
     }
   }
